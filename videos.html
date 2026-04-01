@@ -4,31 +4,30 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Videos — Thaj Vlog</title>
-  <meta name="description" content="All videos from Thaj Vlog" />
   <link rel="stylesheet" href="assets/css/styles.css"/>
 </head>
-<body>
-  <nav class="theme-bar" aria-hidden="false">
-    <button class="theme-btn" data-theme="apple"></button>
-    <button class="theme-btn" data-theme="snapchat">👻</button>
-    <button class="theme-btn" data-theme="chatgpt">💬</button>
-    <button class="theme-btn" data-theme="dark">🎬</button>
-    <a class="theme-link" href="index.html">🏠</a>
-    <a class="theme-link" href="shorts.html">📱</a>
-  </nav>
+<body data-theme="apple">
+  <aside class="left-toolbar">
+    <button class="lt-btn" data-theme="apple"></button>
+    <button class="lt-btn" data-theme="snapchat">👻</button>
+    <button class="lt-btn" data-theme="chatgpt">💬</button>
+    <button class="lt-btn" data-theme="dark">🎬</button>
+    <a class="lt-link" href="index.html">🏠</a>
+    <a class="lt-link" href="shorts.html">📱</a>
+  </aside>
 
   <header class="topbar">
     <div class="container topbar-inner">
       <div class="brand"><img src="assets/img/logo.png" alt="logo" class="brand-logo"/><div><h1 class="brand-title">Thaj Vlog</h1></div></div>
       <div class="top-actions">
-        <input id="search" placeholder="Search videos..." />
+        <input id="nav-search" placeholder="Search..." />
         <a class="btn subscribe" href="https://www.youtube.com/@itsThajvlog" target="_blank">🔔</a>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <a class="back" href="index.html">← Back</a>
+    <a class="back" href="index.html">← Home</a>
     <h2>All Videos</h2>
 
     <div class="controls">
@@ -40,14 +39,12 @@
       <div class="loading">Loading videos…</div>
     </div>
 
-    <div class="center" style="margin-top:18px;">
+    <div class="center" style="margin-top:16px;">
       <button id="loadMore" class="btn outline">Load more</button>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">© Thaj Vlog</div>
-  </footer>
+  <footer class="site-footer"><div class="container">© Thaj Vlog</div></footer>
 
   <script src="assets/js/config.js"></script>
   <script src="assets/js/app.js"></script>
@@ -61,8 +58,7 @@
 
       async function load(initial=false, query='') {
         try {
-          loadMore.disabled = true;
-          loadMore.textContent = 'Loading...';
+          loadMore.disabled = true; loadMore.textContent = 'Loading...';
           const res = await App.fetchVideosWithDetails({ maxResults: 12, pageToken: nextPage || '' });
           nextPage = res.nextPageToken || null;
           let items = res.items || [];
@@ -71,12 +67,18 @@
           if (!nextPage) loadMore.style.display = 'none';
           else { loadMore.disabled = false; loadMore.textContent = 'Load more'; }
         } catch (e) {
-          console.error(e);
+          console.error('Videos load error', e);
           grid.innerHTML = '<div class="error">Error loading videos</div>';
+          loadMore.style.display = 'none';
         }
       }
 
-      (async function(){ await App.init(); load(true); })();
+      (async function(){ await App.init(); // check for q param
+        const params = new URLSearchParams(location.search);
+        const q = params.get('q') || '';
+        if (q) { document.getElementById('q').value = q; }
+        load(true, q);
+      })();
 
       loadMore.addEventListener('click', ()=> load(false, qInput.value));
       doSearch.addEventListener('click', ()=> { grid.innerHTML = '<div class="loading">Searching…</div>'; nextPage = null; load(true, qInput.value); });
