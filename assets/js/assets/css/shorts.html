@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Shorts — Thaj Vlog</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body data-theme="apple">
+  <a class="back" href="index.html">← Home</a>
+
+  <header class="container"><h1>Shorts</h1></header>
+
+  <main class="container">
+    <div id="shorts-list" class="shorts-grid">
+      <div class="loading">Loading shorts…</div>
+    </div>
+  </main>
+
+  <footer class="container">© Thaj Vlog</footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (async function(){
+      try {
+        await App.init();
+        const shorts = await App.fetchShorts({ maxResults: 50 });
+        const container = document.getElementById('shorts-list');
+        App.renderShortCards(shorts, container);
+      } catch (e) {
+        console.error(e);
+        document.getElementById('shorts-list').innerHTML = '<div class="error-msg">Error loading shorts</div>';
+      }
+    })();
+  </script>
+</body>
+</html>
