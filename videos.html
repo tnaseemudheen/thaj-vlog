@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Videos — Thaj Vlog</title>
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body data-theme="apple">
+  <a class="back" href="index.html">← Home</a>
+  <header class="container"><h1>All Videos</h1></header>
+
+  <main class="container">
+    <div class="controls">
+      <input id="search" placeholder="Search titles..." type="search" />
+      <button id="searchBtn" class="btn outline">Search</button>
+    </div>
+
+    <div id="videos-list" class="grid">
+      <div class="loading">Loading videos…</div>
+    </div>
+
+    <div class="center" style="margin-top:1rem;">
+      <button id="loadMore" class="btn outline">Load more</button>
+    </div>
+  </main>
+
+  <footer class="container">
+    <p>Thaj Vlog</p>
+  </footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function(){
+      let nextPage = null;
+      const list = document.getElementById('videos-list');
+      const loadMore = document.getElementById('loadMore');
+      const searchInput = document.getElementById('search');
+      const searchBtn = document.getElementById('searchBtn');
+
+      async function load(initial=false, query='') {
+        try {
+          loadMore.disabled = true;
+          loadMore.textContent = 'Loading...';
+          const res = await App.fetchVideosWithDetails({ maxResults: 12, pageToken: nextPage || '' });
+          nextPage = res.nextPageToken || null;
+          let items = res.items || [];
+          if (query) items = items.filter(i => (i.snippet.title || '').toLowerCase().includes(query.toLowerCase()));
+          App.renderVideoCards(items, list, !initial);
+          if (!nextPage) loadMore.style.display = 'none';
+          else { loadMore.disabled = false; loadMore.textContent = 'Load more'; }
+        } catch (e) {
+          console.error(e);
+          list.innerHTML = '<div class="error-msg">Error loading videos</div>';
+          loadMore.style.display = 'none';
+        }
+      }
+
+      (async function(){ await App.init(); load(true); })();
+
+      loadMore.addEventListener('click', ()=> load(false, searchInput.value));
+
+      searchBtn.addEventListener('click', ()=> {
+        list.innerHTML = '<div class="loading">Searching…</div>';
+        nextPage = null;
+        load(true, searchInput.value);
+      });
+    })();
+  </script>
+</body>
+</html>
