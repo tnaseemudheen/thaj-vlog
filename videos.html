@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Videos — Thaj Vlog</title>
+  <meta name="description" content="All videos from Thaj Vlog" />
+  <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body>
+  <nav class="theme-bar" aria-hidden="false">
+    <button class="theme-btn" data-theme="apple"></button>
+    <button class="theme-btn" data-theme="snapchat">👻</button>
+    <button class="theme-btn" data-theme="chatgpt">💬</button>
+    <button class="theme-btn" data-theme="dark">🎬</button>
+    <a class="theme-link" href="index.html">🏠</a>
+    <a class="theme-link" href="shorts.html">📱</a>
+  </nav>
+
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand"><img src="assets/img/logo.png" alt="logo" class="brand-logo"/><div><h1 class="brand-title">Thaj Vlog</h1></div></div>
+      <div class="top-actions">
+        <input id="search" placeholder="Search videos..." />
+        <a class="btn subscribe" href="https://www.youtube.com/@itsThajvlog" target="_blank">🔔</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <a class="back" href="index.html">← Back</a>
+    <h2>All Videos</h2>
+
+    <div class="controls">
+      <input id="q" placeholder="Search titles..." />
+      <button id="doSearch" class="btn outline">Search</button>
+    </div>
+
+    <div id="videosGrid" class="card-grid">
+      <div class="loading">Loading videos…</div>
+    </div>
+
+    <div class="center" style="margin-top:18px;">
+      <button id="loadMore" class="btn outline">Load more</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© Thaj Vlog</div>
+  </footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function(){
+      let nextPage = null;
+      const grid = document.getElementById('videosGrid');
+      const loadMore = document.getElementById('loadMore');
+      const qInput = document.getElementById('q');
+      const doSearch = document.getElementById('doSearch');
+
+      async function load(initial=false, query='') {
+        try {
+          loadMore.disabled = true;
+          loadMore.textContent = 'Loading...';
+          const res = await App.fetchVideosWithDetails({ maxResults: 12, pageToken: nextPage || '' });
+          nextPage = res.nextPageToken || null;
+          let items = res.items || [];
+          if (query) items = items.filter(i => (i.snippet.title || '').toLowerCase().includes(query.toLowerCase()));
+          App.renderVideoCards(items, grid, !initial);
+          if (!nextPage) loadMore.style.display = 'none';
+          else { loadMore.disabled = false; loadMore.textContent = 'Load more'; }
+        } catch (e) {
+          console.error(e);
+          grid.innerHTML = '<div class="error">Error loading videos</div>';
+        }
+      }
+
+      (async function(){ await App.init(); load(true); })();
+
+      loadMore.addEventListener('click', ()=> load(false, qInput.value));
+      doSearch.addEventListener('click', ()=> { grid.innerHTML = '<div class="loading">Searching…</div>'; nextPage = null; load(true, qInput.value); });
+    })();
+  </script>
+</body>
+</html>
