@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thaj Vlog - Travel & Lifestyle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: #1a1a1a;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff6b35;
+        }
+
+        .btn-subscribe {
+            background: #ff6b35;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-subscribe:hover {
+            background: #e55100;
+            transform: scale(1.05);
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #0f0f0f, #1a1a2e);
+            padding: 100px 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ff6b35;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat h3 {
+            font-size: 2.5rem;
+            color: #ff6b35;
+            margin: 0;
+        }
+
+        .stat p {
+            color: #b0b0b0;
+            margin-top: 0.5rem;
+        }
+
+        .hero-buttons {
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid #ff6b35;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e55100;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6b35;
+        }
+
+        .btn-secondary:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        /* SECTION */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #ff6b35;
+        }
+
+        /* ABOUT */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-list {
+            list-style: none;
+        }
+
+        .about-list li {
+            color: #b0b0b0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #2a2a3e;
+        }
+
+        .about-list li i {
+            color: #10b981;
+            margin-right: 0.5rem;
+        }
+
+        /* VIDEOS GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-card {
+            background: #1c1c2e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #2a2a3e;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff6b35;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: #2a2a3e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.1);
+        }
+
+        .play-icon {
+            position: absolute;
+            font-size: 3rem;
+            color: #ff6b35;
+            opacity: 0.7;
+        }
+
+        .video-card:hover .play-icon {
+            opacity: 1;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #fff;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .video-info p {
+            font-size: 0.85rem;
+            color: #808080;
+        }
+
+        /* SHORTS */
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .short-card {
+            background: #1c1c2e;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 9/16;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #2a2a3e;
+            position: relative;
+        }
+
+        .short-card:hover {
+            transform: scale(1.08);
+            border-color: #ff6b35;
+        }
+
+        .short-thumbnail {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .short-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .short-card:hover .short-thumbnail img {
+            transform: scale(1.1);
+        }
+
+        .short-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: #ff6b35;
+            opacity: 0.7;
+        }
+
+        .short-card:hover .short-play {
+            opacity: 1;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1a1a1a;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid #2a2a3e;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: #ff6b35;
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #b0b0b0;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #2a2a3e;
+            border-top-color: #ff6b35;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            nav .nav-links { display: none; }
+            .about { grid-template-columns: 1fr; }
+            .stats { gap: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .shorts-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-buttons { display: flex; flex-direction: column; }
+            .btn { width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.5rem; }
+            .section { padding: 2rem 1rem; }
+            .stats { gap: 1rem; }
+            .stat h3 { font-size: 1.8rem; }
+            .shorts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="container">
+            <div class="logo">▶ Thaj Vlog</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#videos">Videos</a>
+                <a href="#shorts">Shorts</a>
+                <a href="https://www.youtube.com/@itsThajvlog" target="_blank" class="btn-subscribe">Subscribe</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+        <h1>Each Journey Tells a Story</h1>
+        <p>Experience travel, lifestyle, and authentic moments through cinema-quality storytelling from Pondicherry to across India</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <h3 id="subs">1.92K+</h3>
+                <p>Subscribers</p>
+            </div>
+            <div class="stat">
+                <h3 id="views">52.3K+</h3>
+                <p>Views</p>
+            </div>
+            <div class="stat">
+                <h3 id="vids">110+</h3>
+                <p>Videos</p>
+            </div>
+        </div>
+
+        <div class="hero-buttons">
+            <a href="https://www.youtube.com/@itsThajvlog?sub_confirmation=1" target="_blank" class="btn btn-primary">🔔 Subscribe on YouTube</a>
+            <a href="#videos" class="btn btn-secondary">▶ Watch Videos</a>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+        <h2>About Thaj Vlog</h2>
+        <div class="about">
+            <div class="about-text">
+                <h3>🌍 பயணம், வாழ்க்கை, அனுபவங்கள்</h3>
+                <p>Welcome to Thaj Vlog, where every journey tells a story and every moment holds a memory. Through cinematic storytelling and authentic experiences, I take you along my travels, lifestyle adventures, and real-life moments.</p>
+                <ul class="about-list">
+                    <li><i class="fas fa-check-circle"></i> Cinematic storytelling in Tamil</li>
+                    <li><i class="fas fa-check-circle"></i> Travel vlogs from across India</li>
+                    <li><i class="fas fa-check-circle"></i> Slow-motion moments & authentic experiences</li>
+                    <li><i class="fas fa-check-circle"></i> Lifestyle & personal growth content</li>
+                    <li><i class="fas fa-check-circle"></i> High-quality production</li>
+                </ul>
+            </div>
+            <div style="text-align: center;">
+                <div style="margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎬</div>
+                    <h3 style="color: #ff6b35;">Cinematic Quality</h3>
+                    <p style="color: #b0b0b0;">Professional production with personal storytelling</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🌏</div>
+                    <h3 style="color: #ff6b35;">Authentic Journeys</h3>
+                    <p style="color: #b0b0b0;">Real experiences from hidden gems</p>
+                </div>
+                <div>
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎵</div>
+                    <h3 style="color: #ff6b35;">Tamil Content</h3>
+                    <p style="color: #b0b0b0;">Stories shared in Tamil with global reach</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section id="videos" class="section">
+        <h2>Latest Videos</h2>
+        <div class="grid" id="videosContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading videos...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHORTS -->
+    <section id="shorts" class="section">
+        <h2>Quick Moments (Shorts)</h2>
+        <div class="shorts-grid" id="shortsContainer">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading shorts...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section style="background: linear-gradient(135deg, #ff6b35, #ff8c42); padding: 4rem 2rem; text-align: center; color: white;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Feel the Journey?</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem;">Join our community of travel enthusiasts</p>
+        <a href="https://www.youtube.com/@itsThajvlog?sub_confirmation=1" target="_blank" class="btn" style="background: white; color: #ff6b35; border-color: white;">Subscribe Now</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p style="margin-bottom: 1rem;">🌍 Thaj Vlog - Travel, Lifestyle & Authentic Experiences</p>
+        <a href="https://www.youtube.com/@itsThajvlog" target="_blank">
+            <i class="fab fa-youtube"></i> YouTube
+        </a>
+        <a href="#">
+            <i class="fab fa-instagram"></i> Instagram
+        </a>
+        <a href="#">
+            <i class="fab fa-twitter"></i> Twitter
+        </a>
+        <p style="margin-top: 2rem; color: #808080; font-size: 0.9rem;">&copy; 2026 Thaj Vlog. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // YouTube API Config
+        const API_KEY = "AIzaSyDZp3XZy9w_oXlPc1C7elhSAo26LTaBxKA";
+        const CHANNEL_ID = "UCl2_w7nB7chRb3wSK-h5pDQ";
+
+        // Format number
+        function formatNum(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num;
+        }
+
+        // Fetch Channel Stats
+        async function getStats() {
+            try {
+                const url = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${CHANNEL_ID}&key=${API_KEY}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.items[0]) {
+                    const stats = data.items[0].statistics;
+                    document.getElementById('subs').textContent = formatNum(parseInt(stats.subscriberCount)) + '+';
+                    document.getElementById('views').textContent = formatNum(parseInt(stats.viewCount)) + '+';
+                    document.getElementById('vids').textContent = formatNum(parseInt(stats.videoCount)) + '+';
+                }
+            } catch (e) {
+                console.error('Stats error:', e);
+            }
+        }
+
+        // Fetch Videos
+        async function getVideos() {
+            try {
+                const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=9&type=video`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                const html = data.items.map(v => v.id.videoId ? `
+                    <a href="https://www.youtube.com/watch?v=${v.id.videoId}" target="_blank" class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="${v.snippet.thumbnails.high.url}" alt="${v.snippet.title}" loading="lazy">
+                            <div class="play-icon">▶</div>
+                        </div>
+                        <div class="video-info">
+                            <h3>${v.snippet.title}</h3>
+                            <p>${new Date(v.snippet.publishedAt).toLocaleDateString()}</p>
+                        </div>
+                    </a>
+                ` : '').join('');
+                
+                document.getElementById('videosContainer').innerHTML = html || '<p style="text-align:center;color:#b0b0b0;">No videos found</p>';
+            } catch (e) {
+                console.error('Videos error:', e);
+                document.getElementById('videosContainer').innerHTML = '<p style="text-align:center;color:#b0b0b0;">Error loading videos</p>';
+            }
+        }
+
+        // Fetch Shorts
+        async function getShorts() {
+            try {
+                const url = `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=8&type=video`;
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                const html = data.items.map(v => v.id.videoId ? `
+                    <a href="https://www.youtube.com/watch?v=${v.id.videoId}" target="_blank" class="short-card">
+                        <div class="short-thumbnail">
+                            <img src="${v.snippet.thumbnails.high.url}" alt="${v.snippet.title}" loading="lazy">
+                            <div class="short-play">▶</div>
+                        </div>
+                    </a>
+                ` : '').join('');
+                
+                document.getElementById('shortsContainer').innerHTML = html || '<p style="text-align:center;color:#b0b0b0;grid-column:1/-1;">No shorts found</p>';
+            } catch (e) {
+                console.error('Shorts error:', e);
+                document.getElementById('shortsContainer').innerHTML = '<p style="text-align:center;color:#b0b0b0;grid-column:1/-1;">Error loading shorts</p>';
+            }
+        }
+
+        // Load on page load
+        window.addEventListener('load', () => {
+            getStats();
+            getVideos();
+            getShorts();
+        });
+    </script>
+
+</body>
+</html>
