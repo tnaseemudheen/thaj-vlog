@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thaj Vlog - Travel & Lifestyle</title>
+    <meta name="description" content="Thaj Vlog - Travel, lifestyle, and cinematic storytelling from Pondicherry to across India">
+    <meta name="keywords" content="travel vlog, tamil vlog, lifestyle, Pondicherry, India travel">
+    <meta name="theme-color" content="#ff6b35">
+    <title>Thaj Vlog - Travel & Lifestyle Stories</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -39,7 +42,18 @@
             align-items: center;
         }
 
-        .logo {
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
             font-size: 1.8rem;
             font-weight: bold;
             color: #ff6b35;
@@ -381,6 +395,7 @@
             .shorts-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-buttons { display: flex; flex-direction: column; }
             .btn { width: 100%; }
+            .logo-img { height: 40px; }
         }
 
         @media (max-width: 480px) {
@@ -389,6 +404,7 @@
             .stats { gap: 1rem; }
             .stat h3 { font-size: 1.8rem; }
             .shorts-grid { grid-template-columns: 1fr; }
+            .logo-text { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -397,7 +413,10 @@
     <!-- NAVBAR -->
     <nav>
         <div class="container">
-            <div class="logo">▶ Thaj Vlog</div>
+            <div class="logo-container">
+                <img src="logo.png" alt="Thaj Vlog Logo" class="logo-img" onerror="this.style.display='none'">
+                <div class="logo-text">Thaj Vlog</div>
+            </div>
             <div class="nav-links">
                 <a href="#home">Home</a>
                 <a href="#about">About</a>
@@ -513,10 +532,11 @@
         <p style="margin-top: 2rem; color: #808080; font-size: 0.9rem;">&copy; 2026 Thaj Vlog. All rights reserved.</p>
     </footer>
 
+    <script src="config.js"></script>
     <script>
-        // YouTube API Config
-        const API_KEY = "AIzaSyDZp3XZy9w_oXlPc1C7elhSAo26LTaBxKA";
-        const CHANNEL_ID = "UCl2_w7nB7chRb3wSK-h5pDQ";
+        // Use CONFIG from config.js
+        const API_KEY = CONFIG.API_KEY;
+        const CHANNEL_ID = CONFIG.CHANNEL_ID;
 
         // Format number
         function formatNum(num) {
@@ -532,7 +552,7 @@
                 const res = await fetch(url);
                 const data = await res.json();
                 
-                if (data.items[0]) {
+                if (data.items && data.items[0]) {
                     const stats = data.items[0].statistics;
                     document.getElementById('subs').textContent = formatNum(parseInt(stats.subscriberCount)) + '+';
                     document.getElementById('views').textContent = formatNum(parseInt(stats.viewCount)) + '+';
